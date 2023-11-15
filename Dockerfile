@@ -1,0 +1,10 @@
+FROM node:18
+
+WORKDIR /usr/app
+COPY package.json .
+
+RUN npm install --force
+COPY . .
+ENTRYPOINT [ "npm", "start" ]
+
+EXPOSE 3000
