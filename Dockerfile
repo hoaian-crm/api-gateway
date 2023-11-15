@@ -5,6 +5,6 @@ COPY package.json .
 
 RUN npm install --force
 COPY . .
-RUN npm start
+ENTRYPOINT [ "npm", "start" ]
 
 EXPOSE 3000
