@@ -83,7 +83,7 @@ export const InitRoute = async (app: Express) => {
     }
   });
 
-  app.get("soft-deploy", async (req, res) => {
+  app.get("/soft-deploy", async (req, res) => {
     permissions = await PermissionSchema.findAll();
     res.send("Nice");
   });
