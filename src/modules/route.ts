@@ -9,7 +9,8 @@ import { Authorization } from "./client/authorization";
 
 export const InitRoute = async (app: Express) => {
   InitPermission();
-  const permissions = await PermissionSchema.findAll();
+  let permissions = await PermissionSchema.findAll();
+
   permissions.map((permission: PermissionSchema) => {
     const route = permission.dataValues.resource;
     const method = permission.dataValues.method;
@@ -80,5 +81,10 @@ export const InitRoute = async (app: Express) => {
       }
       console.log(`[${method}] ${route}`);
     }
+  });
+
+  app.get("soft-deploy", async (req, res) => {
+    permissions = await PermissionSchema.findAll();
+    res.send("Nice");
   });
 };
