@@ -30,7 +30,7 @@ export const Authorization = (policy: string) => {
       ) {
         return next();
       }
-      res.status(401).send("Unauthorized");
+      res.status(403).send("Forbidden Resource");
     } catch (error) {
       console.log("error is", error);
       res.status(401).send("Unauthorized");
