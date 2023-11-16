@@ -98,4 +98,4 @@ jobs:
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         with:
-          args: delete pod $(kubectl get pods | grep api-gateway)
+          args: rollout restart deployment api-gateway
