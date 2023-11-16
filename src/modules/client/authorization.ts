@@ -24,6 +24,7 @@ export const Authorization = (policy: string) => {
       const permissions = await PermissionService.getPermissionOfRole(
         user.role.id
       );
+      console.log("permissions is: ", user);
       if (
         user.role?.name == Environment.SuperAdminRole ||
         permissions.map((p) => p.policy).includes(policy)

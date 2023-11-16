@@ -2,9 +2,15 @@ import express from "express";
 import Environment from "./constant/environment";
 import { ConnectDatabase } from "./config/database";
 import { InitRoute } from "./modules/route";
+import cors from "cors";
 
 const setup = async () => {
   const app = express();
+  app.use(
+    cors({
+      origin: "*",
+    })
+  );
   app.use(express.json());
   app.use(
     express.urlencoded({
