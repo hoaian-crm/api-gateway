@@ -14,7 +14,7 @@ export const CreateClient = (req: Request, res: Response) => {
       return response;
     },
     function (error: AxiosError) {
-      res.status(error.response!.status).send(error.response?.data);
+      res.status(error.response!.status || 500).send(error.response?.data);
       console.log("error when call api is: ", error)
       return error;
     }
