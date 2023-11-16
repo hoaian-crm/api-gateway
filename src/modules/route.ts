@@ -1,9 +1,8 @@
-import { HttpStatusCode } from "./../../node_modules/axios/index.d";
 import { Express, Request, Response } from "express";
 import { PermissionService } from "./permissions/service";
 import { InitPermission, Method, PermissionSchema } from "./permissions/schema";
 import Environment from "../constant/environment";
-import { AxiosResponse } from "axios";
+import { AxiosResponse, AxiosError } from "axios";
 import { CreateClient } from "./client";
 import { Authorization } from "./client/authorization";
 
@@ -23,11 +22,9 @@ export const InitRoute = async (app: Express) => {
             route,
             Authorization(policy),
             async (req: Request, res: Response) => {
-              try {
-                const proxyUrl = upstreamHost + req.url;
-                const client = CreateClient(req, res);
-                await client.get(proxyUrl);
-              } catch (error) {}
+              const proxyUrl = upstreamHost + req.url;
+              const client = CreateClient(req, res);
+              await client.get(proxyUrl);
             }
           );
         case Method.POST:
@@ -35,11 +32,9 @@ export const InitRoute = async (app: Express) => {
             route,
             Authorization(policy),
             async (req: Request, res: Response) => {
-              try {
-                const proxyUrl = upstreamHost + req.url;
-                const client = CreateClient(req, res);
-                await client.post(proxyUrl, req.body);
-              } catch (error) {}
+              const proxyUrl = upstreamHost + req.url;
+              const client = CreateClient(req, res);
+              await client.post(proxyUrl, req.body);
             }
           );
         case Method.PUT:
@@ -47,11 +42,9 @@ export const InitRoute = async (app: Express) => {
             route,
             Authorization(policy),
             (req: Request, res: Response) => {
-              try {
-                const proxyUrl = upstreamHost + req.url;
-                const client = CreateClient(req, res);
-                client.put(proxyUrl, req.body);
-              } catch (error) {}
+              const proxyUrl = upstreamHost + req.url;
+              const client = CreateClient(req, res);
+              client.put(proxyUrl, req.body);
             }
           );
         case Method.PATCH:
@@ -59,23 +52,19 @@ export const InitRoute = async (app: Express) => {
             route,
             Authorization(policy),
             (req: Request, res: Response) => {
-              try {
-                const proxyUrl = upstreamHost + req.url;
-                const client = CreateClient(req, res);
-                client.patch(proxyUrl, req.body);
-              } catch (error) {}
+              const proxyUrl = upstreamHost + req.url;
+              const client = CreateClient(req, res);
+              client.patch(proxyUrl, req.body);
             }
           );
         case Method.DELETE:
           app.delete(
             route,
             Authorization(policy),
-            (req: Request, res: Response) => {
-              try {
-                const proxyUrl = upstreamHost + req.url;
-                const client = CreateClient(req, res);
-                client.delete(proxyUrl);
-              } catch (error) {}
+            async (req: Request, res: Response) => {
+              const proxyUrl = upstreamHost + req.url;
+              const client = CreateClient(req, res);
+              await client.delete(proxyUrl);
             }
           );
       }

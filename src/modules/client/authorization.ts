@@ -1,9 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import Environment from "../../constant/environment";
+import { PermissionService } from "../permissions/service";
+import { PermissionSchema } from "../permissions/schema";
 
 export const Authorization = (policy: string) => {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
     try {
       if (policy === "public") {
         return next();
@@ -17,8 +19,15 @@ export const Authorization = (policy: string) => {
       }
 
       const user: any = jwt.verify(token, Environment.Secret);
+
       req.headers["UserId"] = user.id;
-      if (user.role?.name == Environment.SuperAdminRole) {
+      const permissions = await PermissionService.getPermissionOfRole(
+        user.role.id
+      );
+      if (
+        user.role?.name == Environment.SuperAdminRole ||
+        permissions.map((p) => p.policy).includes(policy)
+      ) {
         return next();
       }
       res.status(401).send("Unauthorized");

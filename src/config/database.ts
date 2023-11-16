@@ -11,6 +11,7 @@ export const ConnectDatabase = async () => {
     host: Environment.PgHost,
     port: +Environment.PgPort,
     database: Environment.PgDatabase,
+    logging: false
   });
 
   await sequelize

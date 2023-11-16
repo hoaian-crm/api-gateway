@@ -2,9 +2,12 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { Response, Request } from "express";
 
 export const CreateClient = (req: Request, res: Response) => {
-  const client = axios.create();
+  const client = axios.create({
+    timeout: 1000
+  });
 
   client.interceptors.request.use(function (request) {
+    request.headers["UserId"] = req.headers["UserId"];
     return request;
   });
 
@@ -14,8 +17,11 @@ export const CreateClient = (req: Request, res: Response) => {
       return response;
     },
     function (error: AxiosError) {
-      res.status(error.response!.status || 500).send(error.response?.data);
-      console.log("error when call api is: ", error)
+      if(error.response) {
+        res.status(error.response!.status || 500).send(error.response?.data);
+        return error;
+      }
+      res.status(500).send(error.message);
       return error;
     }
   );
