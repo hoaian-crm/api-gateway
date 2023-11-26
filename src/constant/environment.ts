@@ -12,7 +12,6 @@ const Environment: Environment = {
   PgHost: process.env.PG_HOST || "localhost",
   PgPort: process.env.PG_PORT || "5432",
   PgDatabase: process.env.PG_DATABASE || "postgres",
-  Authentication: process.env.AUTHENTICATION_HOST || "",
   Secret: process.env.JWT_SECRECT || "",
   SuperAdminRole: process.env.SUPER_ADMIN_ROLE || "Root"
 };

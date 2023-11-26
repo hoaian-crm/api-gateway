@@ -1,10 +1,7 @@
 import { Express, Request, Response } from "express";
-import { PermissionService } from "./permissions/service";
-import { InitPermission, Method, PermissionSchema } from "./permissions/schema";
-import Environment from "../constant/environment";
-import { AxiosResponse, AxiosError } from "axios";
 import { CreateClient } from "./client";
 import { Authorization } from "./client/authorization";
+import { InitPermission, Method, PermissionSchema } from "./permissions/schema";
 
 export const InitRoute = async (app: Express) => {
   InitPermission();
@@ -14,7 +11,7 @@ export const InitRoute = async (app: Express) => {
     const route = permission.dataValues.resource;
     const method = permission.dataValues.method;
     const policy = permission.dataValues.policy;
-    const upstreamHost = Environment[permission.dataValues.upstream];
+    const upstreamHost = process.env[permission.dataValues.upstream];
     if (route && upstreamHost) {
       switch (method) {
         case Method.GET:
