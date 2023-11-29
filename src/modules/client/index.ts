@@ -3,7 +3,7 @@ import { Response, Request } from "express";
 
 export const CreateClient = (req: Request, res: Response) => {
   const client = axios.create({
-    timeout: 1000
+    timeout: 100000
   });
 
   client.interceptors.request.use(function (request) {
