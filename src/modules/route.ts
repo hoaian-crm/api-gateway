@@ -1,6 +1,7 @@
 import { Express, Request, Response } from "express";
 import { CreateClient } from "./client";
 import { Authorization } from "./client/authorization";
+import { handleMultipartFromData } from "./client/multipart";
 import { InitPermission, Method, PermissionSchema } from "./permissions/schema";
 
 export const InitRoute = async (app: Express) => {
@@ -31,11 +32,18 @@ export const InitRoute = async (app: Express) => {
             async (req: Request, res: Response) => {
               const proxyUrl = upstreamHost + req.url;
               const client = CreateClient(req, res);
-              console.log('request information: ', req.body, req.headers)
+              if (req.headers["content-type"] !== "application/json") {
+                await client.post(proxyUrl, handleMultipartFromData(req), {
+                  headers: {
+                    "Content-Type": req.headers["content-type"],
+                  },
+                });
+                return;
+              }
               await client.post(proxyUrl, req.body, {
                 headers: {
-                  'Content-Type': req.headers['content-type']
-                }
+                  "Content-Type": req.headers["content-type"],
+                },
               });
             }
           );
