@@ -1,11 +1,15 @@
-import express from "express";
-import Environment from "./constant/environment";
-import { ConnectDatabase } from "./config/database";
-import { InitRoute } from "./modules/route";
 import cors from "cors";
+import express from "express";
+import multer from 'multer';
+import { ConnectDatabase } from "./config/database";
+import Environment from "./constant/environment";
+import { InitRoute } from "./modules/route";
+
+const upload = multer();
 
 const setup = async () => {
   const app = express();
+  app.use(upload.any())
   app.use(
     cors({
       origin: "*",
