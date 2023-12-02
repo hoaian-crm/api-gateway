@@ -31,6 +31,7 @@ export const InitRoute = async (app: Express) => {
             async (req: Request, res: Response) => {
               const proxyUrl = upstreamHost + req.url;
               const client = CreateClient(req, res);
+              console.log('request information: ', req.body, req.headers)
               await client.post(proxyUrl, req.body, {
                 headers: {
                   'Content-Type': req.headers['content-type']
