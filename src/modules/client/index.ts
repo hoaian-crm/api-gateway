@@ -1,9 +1,9 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { Response, Request } from "express";
+import { Request, Response } from "express";
 
 export const CreateClient = (req: Request, res: Response) => {
   const client = axios.create({
-    timeout: 100000
+    timeout: 2000
   });
 
   client.interceptors.request.use(function (request) {

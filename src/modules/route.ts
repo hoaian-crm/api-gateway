@@ -74,7 +74,7 @@ export const InitRoute = async (app: Express) => {
             async (req: Request, res: Response) => {
               const proxyUrl = upstreamHost + req.url;
               const client = CreateClient(req, res);
-              await client.delete(proxyUrl);
+              await client.delete(proxyUrl, {params: req.query, data: req.body});
             }
           );
       }
